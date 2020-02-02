@@ -21,80 +21,92 @@ func getListOfFiles() (listOfFiles []string) {
 	return
 }
 
-//Создание структур users, locations, visits
-type user struct {
+//Создание структур
+type User struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	BirthDate int    `json:"birth_date"`
-	Gender    string
-	ID        uint32
-	Email     string
+	Gender    string `json:"gender"`
+	ID        uint32 `json:"id"`
+	Email     string `json:"email"`
 }
 
-type users struct {
-	Users []user
+type Users struct {
+	Users []User
 }
 
-type location struct {
-	Distance uint32
-	City     string
-	Place    string
-	ID       uint32
-	country  string
+type AllUsers struct {
+	AllUsers map[uint32]User
 }
 
-type locations struct {
-	Locations []location
+type Location struct {
+	Distance uint32 `json:"distance"`
+	City     string `json:"city"`
+	Place    string `json:"place"`
+	ID       uint32 `json:"id"`
+	Country  string `json:"country"`
 }
 
-type visit struct {
-	User      uint32
-	Location  uint32
-	VisitedAt int `json:"visited_at"`
-	ID        uint32
-	Mark      uint32
+type Locations struct {
+	Locations []Location
 }
 
-type visits struct {
-	Visits []visit
+type AllLocations struct {
+	AllLocations map[uint32]Location
+}
+
+type Visit struct {
+	User      uint32 `json:"user"`
+	Location  uint32 `json:"location"`
+	VisitedAt int    `json:"visited_at"`
+	ID        uint32 `json:"id"`
+	Mark      uint32 `json:"mark"`
+}
+
+type Visits struct {
+	Visits []Visit
+}
+
+type AllVisits struct {
+	AllVisits map[uint32]Visit
 }
 
 //Функции для извлечения данных из JSON-файлов и их преобразования
-func getDataUsers(fileName string) users {
+func getDataUsers(fileName string) Users {
 	file, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var dataUsers users
+	var dataUsers Users
 	json.Unmarshal(file, &dataUsers)
 	return dataUsers
 }
 
-func getDataLocations(fileName string) locations {
+func getDataLocations(fileName string) Locations {
 	file, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var dataLocations locations
+	var dataLocations Locations
 	json.Unmarshal(file, &dataLocations)
 	return dataLocations
 }
 
-func getDataVisits(fileName string) visits {
+func getDataVisits(fileName string) Visits {
 	file, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var dataVisits visits
+	var dataVisits Visits
 	json.Unmarshal(file, &dataVisits)
 	return dataVisits
 }
 
 //Функция для создания БД allUsers, allLocations, allVisits
-func getBasesData(listOfFiles []string) (map[uint32]user, map[uint32]location, map[uint32]visit) {
-	allUsers := map[uint32]user{}
-	allLocations := map[uint32]location{}
-	allVisits := map[uint32]visit{}
+func getBasesData(listOfFiles []string) (AllUsers, AllLocations, AllVisits) {
+	allUsers := map[uint32]User{}
+	allLocations := map[uint32]Location{}
+	allVisits := map[uint32]Visit{}
 	for _, fileName := range listOfFiles {
 		if strings.Contains(fileName, "users") {
 			dataUsers := getDataUsers("data/" + fileName)
@@ -113,14 +125,17 @@ func getBasesData(listOfFiles []string) (map[uint32]user, map[uint32]location, m
 			}
 		}
 	}
-	return allUsers, allLocations, allVisits
-
+	allUs := AllUsers{allUsers}
+	allLoc := AllLocations{allLocations}
+	allVis := AllVisits{allVisits}
+	return allUs, allLoc, allVis
 }
 
-func main() {
+/*func main() {
 	listOfFiles := getListOfFiles()
-	allUsers, allLocations, allVisits := getBasesData(listOfFiles)
-	//fmt.Println(allUsers)
-	//fmt.Println(allLocations)
-	//fmt.Println(allVisits)
-}
+	allUser, _, _ := getBasesData(listOfFiles)
+	fmt.Println(allUser.AllUsers[5])
+	//fmt.Println(*allLocatoin.AllLocations[2])
+	//fmt.Println(*allVisit.AllVisits[2])
+
+}*/
