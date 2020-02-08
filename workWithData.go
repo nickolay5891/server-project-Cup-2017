@@ -130,12 +130,3 @@ func getBasesData(listOfFiles []string) (AllUsers, AllLocations, AllVisits) {
 	allVis := AllVisits{allVisits}
 	return allUs, allLoc, allVis
 }
-
-/*func main() {
-	listOfFiles := getListOfFiles()
-	allUser, _, _ := getBasesData(listOfFiles)
-	fmt.Println(allUser.AllUsers[5])
-	//fmt.Println(*allLocatoin.AllLocations[2])
-	//fmt.Println(*allVisit.AllVisits[2])
-
-}*/
