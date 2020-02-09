@@ -5,8 +5,6 @@ import (
 	"sort"
 )
 
-//us.AllUsers[id] = User{"swe", "fggf", 6567, "32", 89, "hkj"}
-
 //Функция для получения данных о пользователе
 func (us *AllUsers) getUser(id uint32) (User, error) {
 	var err error
@@ -15,7 +13,6 @@ func (us *AllUsers) getUser(id uint32) (User, error) {
 	} else {
 		err = fmt.Errorf("User is not found")
 	}
-	//return nil, err
 	return us.AllUsers[id], err
 }
 
